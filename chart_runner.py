@@ -46,7 +46,7 @@ class Driver:
                     continue
 
                 symbol = keys[i]
-                print(i, ': ' + symbol)
+                print(i, ': ' + all_symbols[symbol] + ' (' + symbol + ')')
                 symbol = symbol + ".NS"
 
                 self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol)
