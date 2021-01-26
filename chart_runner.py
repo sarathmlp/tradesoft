@@ -49,8 +49,7 @@ class Driver:
                 print(i, ': ' + all_symbols[symbol] + ' (' + symbol + ')')
                 symbol = symbol + ".NS"
 
-                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol)
-                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(Keys.RETURN)
+                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol + Keys.RETURN)
                 i += 1
             except KeyboardInterrupt:
                 sys.exit(1)
