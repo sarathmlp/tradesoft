@@ -1,9 +1,14 @@
 import sys
-import time
+import time, threading
 import webbrowser
 from nsetools import Nse
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
-# Get all the stock symbols
 nse = Nse()
 all_symbols = nse.get_stock_codes()
 del all_symbols['SYMBOL']
@@ -11,19 +16,73 @@ del all_symbols['SYMBOL']
 print("Total symbols: %d" % (len(all_symbols)))
 keys = list(all_symbols.keys())
 
-url = 'https://chartink.com/stocks/'
+url = 'https://finance.yahoo.com/chart/%5ENSEI'
+pause_execution = False
+stop_thread = False
 
-def display_chart(start, end):
-    for i in range(start, end):
-        symbol = keys[i]
-        print(i, ': ' + symbol)
-        address = url + symbol + '.html'
-        webbrowser.open(address)
-        time.sleep(5)
-    
+class Driver:
+
+    def __init__ (self):
+        chromeOptions = Options()
+        chromeOptions.add_argument("--kiosk")
+        self.driver = webdriver.Chrome(options=chromeOptions)
+        self.driver.get(url)
+
+    def set_view (self):
+        input("enter any key when ready!")
+        return
+
+    def __del__ (self):
+        print("cleaning up!")
+        self.driver.close()
+
+    def display_chart(self, start, end):
+        i = start
+        while i < end:
+            try:
+                time.sleep(5)
+                if pause_execution == True:
+                    print("*", end="", flush=True)
+                    continue
+
+                symbol = keys[i]
+                print(i, ': ' + symbol)
+                symbol = symbol + ".NS"
+
+                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol)
+                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(Keys.RETURN)
+                i += 1
+            except KeyboardInterrupt:
+                sys.exit(1)
+
+
+def toggle_pause_execution():
+    global pause_execution
+    lock = threading.Lock()
+    print("enter any key to toggle pause!")
+    print("------------------------------")
+
+    while True:
+        with lock:
+            input()
+            pause_execution = not pause_execution
+
+            if stop_thread:
+                break
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print("Not enough arguments")
+        print("not enough arguments\n")
         sys.exit(1)
 
-    display_chart(int(sys.argv[1]), int(sys.argv[2]))
+    driver = Driver()
+    driver.set_view()
+
+    thread = threading.Thread(target = toggle_pause_execution)
+    thread.start()
+
+    driver.display_chart(int(sys.argv[1]), int(sys.argv[2]))
+
+    stop_thread = True
+    thread.join()
+
