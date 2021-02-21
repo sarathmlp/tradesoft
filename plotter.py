@@ -49,36 +49,26 @@ class Plotter:
 
     def get_qpnl (self):
         df = self.qresults
-
-        df["Net Profit"] = pd.to_numeric(df["Net Profit"])
-        if "Sales" not in df.columns:
-            df["Sales"] = pd.to_numeric(df["Revenue"])
-        else:
-            df["Sales"] = pd.to_numeric(df["Sales"])
-
         if "Operating Profit" not in df.columns:
             df["Operating Profit"] = pd.to_numeric(df["Financing Profit"])
         else:
             df["Operating Profit"] = pd.to_numeric(df["Operating Profit"])
 
-        pdf = pd.DataFrame({"Revenue": df["Sales"], "Op Profit": df["Operating Profit"], "Earnings":df["Net Profit"]}, index=df.index)
+        df["Net Profit"] = pd.to_numeric(df["Net Profit"])
+
+        pdf = pd.DataFrame({"Op. Profit": df["Operating Profit"], "Earnings":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_apnl (self):
         df = self.pnl
-
-        df["Net Profit"] = pd.to_numeric(df["Net Profit"])
-        if "Sales" not in df.columns:
-            df["Sales"] = pd.to_numeric(df["Revenue"])
-        else:
-            df["Sales"] = pd.to_numeric(df["Sales"])
-
         if "Operating Profit" not in df.columns:
             df["Operating Profit"] = pd.to_numeric(df["Financing Profit"])
         else:
             df["Operating Profit"] = pd.to_numeric(df["Operating Profit"])
 
-        pdf = pd.DataFrame({"Revenue": df["Sales"], "Op Profit": df["Operating Profit"], "Earnings":df["Net Profit"]}, index=df.index)
+        df["Net Profit"] = pd.to_numeric(df["Net Profit"])
+
+        pdf = pd.DataFrame({"Op. Profit": df["Operating Profit"], "Earnings":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_balance_sheet (self):
@@ -92,41 +82,47 @@ class Plotter:
     def get_holding (self):
         df = self.holding
         df["Promoters"] = pd.to_numeric(df["Promoters"])
-        df["FIIs"] = pd.to_numeric(df["FIIs"])
         df["DIIs"] = pd.to_numeric(df["DIIs"])
         df["Public"] = pd.to_numeric(df["Public"])
-        pdf = pd.DataFrame({"Promoters": df["Promoters"], "FIIs": df["FIIs"], "DIIs": df["DIIs"], "Public": df["Public"]}, index=df.index)
+        if "FIIs" in df.columns:
+            df["FIIs"] = pd.to_numeric(df["FIIs"])
+            pdf = pd.DataFrame({"Promoters": df["Promoters"], "FIIs": df["FIIs"], "DIIs": df["DIIs"], "Public": df["Public"]}, index=df.index)
+        else:
+            pdf = pd.DataFrame({"Promoters": df["Promoters"], "DIIs": df["DIIs"], "Public": df["Public"]}, index=df.index)
         return pdf
 
     def plot (self):
+        ypnl = self.get_apnl()
         qpnl = self.get_qpnl()
-        apnl = self.get_apnl()
         tc = len(self.t_list)
         if tc > 6:
-            opm = self.get_balance_sheet()
+            balance = self.get_balance_sheet()
         if tc > 9:
             holding = self.get_holding()
 
         fig, axs = plt.subplots(2, 2)
         fig.tight_layout()
         axs[0,0].tick_params(axis="x", labelsize=8)
-        axs[0,0].set_title("Quarterly")
+        axs[0,0].set_title("Earnings(Y)")
         axs[0,1].tick_params(axis="x", labelsize=8)
-        axs[0,1].set_title("Annual")
+        axs[0,1].set_title("Earnings(Q)")
         axs[1,0].tick_params(axis="x", labelsize=8)
-        axs[1,0].set_title("Profit")
+        axs[1,0].set_title("Balance")
         axs[1,1].tick_params(axis="x", labelsize=8)
-        axs[1,1].set_title("Holding")
+        axs[1,1].set_title("H. pattern")
 
-        qpnl.plot(ax=axs[0, 0], kind='bar')
-        apnl.plot(ax=axs[0, 1], kind='bar')
-        tc = len(self.t_list)
-        if tc > 6:
-            opm.plot(ax=axs[1, 0], kind='bar', color = ['#E74C3C', '#2ECC71'])
-        if tc > 9:
-            holding.plot(ax=axs[1, 1], kind='bar', color = ['#8E44AD', '#2ECC71','#FFBF00', '#85929E'])
+        try:
+            ypnl.plot(ax=axs[0, 0], kind='bar')
+            qpnl.plot(ax=axs[0, 1], kind='bar')
+            tc = len(self.t_list)
+            if tc > 6:
+                balance.plot(ax=axs[1, 0], kind='bar', color = ['#E74C3C', '#2ECC71'])
+            if tc > 9:
+                holding.plot(ax=axs[1, 1], kind='bar', color = ['#8E44AD', '#2ECC71','#FFBF00', '#85929E'])
 
-        plt.show()
+            plt.show()
+        except:
+            print("** Failed to plot. Try toggling consolidation")
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
