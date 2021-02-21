@@ -21,7 +21,6 @@ pause_execution = False
 stop_thread = False
 
 class Driver:
-
     def __init__ (self):
         chromeOptions = Options()
         chromeOptions.add_argument("--kiosk")
