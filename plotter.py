@@ -103,13 +103,9 @@ class Plotter:
         fig, axs = plt.subplots(2, 2)
         fig.tight_layout()
         axs[0,0].tick_params(axis="x", labelsize=8)
-        axs[0,0].set_title("Earnings(Y)")
         axs[0,1].tick_params(axis="x", labelsize=8)
-        axs[0,1].set_title("Earnings(Q)")
         axs[1,0].tick_params(axis="x", labelsize=8)
-        axs[1,0].set_title("Balance")
         axs[1,1].tick_params(axis="x", labelsize=8)
-        axs[1,1].set_title("H. pattern")
 
         try:
             ypnl.plot(ax=axs[0, 0], kind='bar')
