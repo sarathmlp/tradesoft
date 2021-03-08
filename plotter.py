@@ -56,7 +56,7 @@ class Plotter:
 
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
-        pdf = pd.DataFrame({"Op. Profit": df["Operating Profit"], "Earnings":df["Net Profit"]}, index=df.index)
+        pdf = pd.DataFrame({"Earnings":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_apnl (self):
@@ -68,7 +68,7 @@ class Plotter:
 
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
-        pdf = pd.DataFrame({"Op. Profit": df["Operating Profit"], "Earnings":df["Net Profit"]}, index=df.index)
+        pdf = pd.DataFrame({"Earnings":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_balance_sheet (self):
@@ -108,11 +108,11 @@ class Plotter:
         axs[1,1].tick_params(axis="x", labelsize=8)
 
         try:
-            ypnl.plot(ax=axs[0, 0], kind='bar')
-            qpnl.plot(ax=axs[0, 1], kind='bar')
+            ypnl.plot(ax=axs[0, 0], kind='bar', color = 'royalblue')
+            qpnl.plot(ax=axs[0, 1], kind='bar', color = 'darkorange')
             tc = len(self.t_list)
             if tc > 6:
-                balance.plot(ax=axs[1, 0], kind='bar', color = ['#E74C3C', '#2ECC71'])
+                balance.plot(ax=axs[1, 0], kind='bar', color = ['#2ECC71','#E74C3C'])
             if tc > 9:
                 holding.plot(ax=axs[1, 1], kind='bar', color = ['#8E44AD', '#2ECC71','#FFBF00', '#85929E'])
 
