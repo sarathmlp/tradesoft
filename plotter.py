@@ -81,14 +81,23 @@ class Plotter:
 
     def get_holding (self):
         df = self.holding
-        df["Promoters"] = pd.to_numeric(df["Promoters"])
-        df["DIIs"] = pd.to_numeric(df["DIIs"])
-        df["Public"] = pd.to_numeric(df["Public"])
+        df_dict = {}
+
+        if "Promoters" in df.columns:
+            df["Promoters"] = pd.to_numeric(df["Promoters"])
+            df_dict["Promoters"] = df["Promoters"]
+        if "DIIs" in df.columns:
+            df["DIIs"] = pd.to_numeric(df["DIIs"])
+            df_dict["DIIs"] = df["DIIs"]
+        if "Public" in df.columns:
+            df["Public"] = pd.to_numeric(df["Public"])
+            df_dict["Public"] = df["Public"]
         if "FIIs" in df.columns:
             df["FIIs"] = pd.to_numeric(df["FIIs"])
-            pdf = pd.DataFrame({"Promoters": df["Promoters"], "FIIs": df["FIIs"], "DIIs": df["DIIs"], "Public": df["Public"]}, index=df.index)
-        else:
-            pdf = pd.DataFrame({"Promoters": df["Promoters"], "DIIs": df["DIIs"], "Public": df["Public"]}, index=df.index)
+            df_dict["FIIs"] = df["FIIs"]
+
+        pdf = pd.DataFrame(df_dict, index=df.index)
+
         return pdf
 
     def plot (self):
