@@ -56,7 +56,7 @@ class Plotter:
 
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
-        pdf = pd.DataFrame({"Earnings":df["Net Profit"]}, index=df.index)
+        pdf = pd.DataFrame({"Quarterly":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_apnl (self):
@@ -68,7 +68,7 @@ class Plotter:
 
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
-        pdf = pd.DataFrame({"Earnings":df["Net Profit"]}, index=df.index)
+        pdf = pd.DataFrame({"Yearly":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_balance_sheet (self):
