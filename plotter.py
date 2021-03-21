@@ -23,6 +23,7 @@ class Plotter:
         except:
             print("Address not found: " + address)
             sys.exit(1)
+        print("Address : " + address)
         resp = url.read()
         soup = BeautifulSoup(resp, 'html.parser')
         tables = soup.findAll("table")
