@@ -112,7 +112,7 @@ class Plotter:
         fig, axs = plt.subplots(2, 2)
         fig.tight_layout()
         fig.set_figheight(7)
-        fig.set_figwidth(8)
+        fig.set_figwidth(9)
         axs[0,0].tick_params(axis="x", labelsize=8)
         axs[0,1].tick_params(axis="x", labelsize=8)
         axs[1,0].tick_params(axis="x", labelsize=8)
