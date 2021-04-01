@@ -28,11 +28,11 @@ class Driver:
         self.driver.get(url)
 
     def set_view (self):
-        input("enter any key when ready!")
+        input("Enter any key when ready!")
         return
 
     def __del__ (self):
-        print("cleaning up!")
+        print("Cleaning up!")
         self.driver.close()
 
     def display_chart(self, start, end):
@@ -57,7 +57,7 @@ class Driver:
 def toggle_pause_execution():
     global pause_execution
     lock = threading.Lock()
-    print("enter any key to toggle pause!")
+    print("Enter any key to toggle pause!")
     print("------------------------------")
 
     while True:
@@ -70,7 +70,7 @@ def toggle_pause_execution():
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print("not enough arguments\n")
+        print("Not enough arguments\n")
         sys.exit(1)
 
     driver = Driver()

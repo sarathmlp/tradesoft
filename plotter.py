@@ -55,9 +55,14 @@ class Plotter:
         else:
             df["Operating Profit"] = pd.to_numeric(df["Operating Profit"])
 
+        if "Sales" not in df.columns:
+             df["Revenue"] = pd.to_numeric(df["Revenue"])
+        else:
+             df["Revenue"] = pd.to_numeric(df["Sales"])
+
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
-        pdf = pd.DataFrame({"Quarterly":df["Net Profit"]}, index=df.index)
+        pdf = pd.DataFrame({"Revenue":df["Revenue"], "Earnings":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_apnl (self):
@@ -67,9 +72,14 @@ class Plotter:
         else:
             df["Operating Profit"] = pd.to_numeric(df["Operating Profit"])
 
+        if "Sales" not in df.columns:
+             df["Revenue"] = pd.to_numeric(df["Revenue"])
+        else:
+             df["Revenue"] = pd.to_numeric(df["Sales"])
+
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
-        pdf = pd.DataFrame({"Yearly":df["Net Profit"]}, index=df.index)
+        pdf = pd.DataFrame({"Revenue":df["Revenue"], "Earnings":df["Net Profit"]}, index=df.index)
         return pdf
 
     def get_balance_sheet (self):
@@ -120,11 +130,11 @@ class Plotter:
         axs[1,1].tick_params(axis="x", labelsize=8)
 
         try:
-            ypnl.plot(ax=axs[0, 0], kind='bar', color = 'royalblue')
-            qpnl.plot(ax=axs[0, 1], kind='bar', color = 'darkorange')
+            ypnl.plot(ax=axs[0, 0], kind='bar', color = ['royalblue', 'darkorange'])
+            qpnl.plot(ax=axs[0, 1], kind='bar', color = ['dodgerblue', 'tomato'])
             tc = len(self.t_list)
             if tc > 6:
-                balance.plot(ax=axs[1, 0], kind='bar', color = ['#2ECC71','#E74C3C'])
+                balance.plot(ax=axs[1, 0], kind='bar', color = ['limegreen','orangered'])
             if tc > 9:
                 holding.plot(ax=axs[1, 1], kind='bar', color = ['#8E44AD', '#2ECC71','#FFBF00', '#85929E'])
 
@@ -134,7 +144,7 @@ class Plotter:
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print("not enough arguments\n")
+        print("Not enough arguments\n")
         sys.exit(1)
 
     plotter = Plotter()
