@@ -55,10 +55,13 @@ class Plotter:
         else:
             df["Operating Profit"] = pd.to_numeric(df["Operating Profit"])
 
-        if "Sales" not in df.columns:
+        if "Sales" in df.columns:
+             df["Revenue"] = pd.to_numeric(df["Sales"])
+        elif "Revenue" in df.columns:
              df["Revenue"] = pd.to_numeric(df["Revenue"])
         else:
-             df["Revenue"] = pd.to_numeric(df["Sales"])
+            print("** Failed to plot. Try toggling consolidation")
+            sys.exit()
 
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 
@@ -72,10 +75,14 @@ class Plotter:
         else:
             df["Operating Profit"] = pd.to_numeric(df["Operating Profit"])
 
-        if "Sales" not in df.columns:
+        if "Sales" in df.columns:
+             df["Revenue"] = pd.to_numeric(df["Sales"])
+        elif "Revenue" in df.columns:
              df["Revenue"] = pd.to_numeric(df["Revenue"])
         else:
-             df["Revenue"] = pd.to_numeric(df["Sales"])
+            print("** Failed to plot. Try toggling consolidation")
+            sys.exit()
+
 
         df["Net Profit"] = pd.to_numeric(df["Net Profit"])
 

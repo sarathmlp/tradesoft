@@ -23,7 +23,8 @@ stop_thread = False
 class Driver:
     def __init__ (self):
         chromeOptions = Options()
-        chromeOptions.add_argument("--kiosk")
+        # start fullscreen
+        # chromeOptions.add_argument("--kiosk")
         self.driver = webdriver.Chrome(options=chromeOptions)
         self.driver.get(url)
 
