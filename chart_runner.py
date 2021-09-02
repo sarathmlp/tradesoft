@@ -40,9 +40,9 @@ class Driver:
         i = start
         while i < end:
             try:
-                time.sleep(5)
                 if pause_execution == True:
                     print("*", end="", flush=True)
+                    time.sleep(10)
                     continue
 
                 symbol = keys[i]
@@ -52,6 +52,7 @@ class Driver:
                 self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol)
                 time.sleep(0.5) # to fix the drop down list display issue
                 self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(Keys.ENTER)
+                time.sleep(10)
                 i += 1
             except KeyboardInterrupt:
                 sys.exit(1)
