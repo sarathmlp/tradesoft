@@ -20,6 +20,8 @@ url = 'https://finance.yahoo.com/chart/%5ENSEI'
 pause_execution = False
 stop_thread = False
 
+base_url= "https://www.screener.in/company/"
+
 class Driver:
     def __init__ (self):
         chromeOptions = Options()
@@ -46,7 +48,7 @@ class Driver:
                     continue
 
                 symbol = keys[i]
-                print(i, ': ' + all_symbols[symbol] + ' (' + symbol + ')')
+                print(i, ': ' + all_symbols[symbol] + ' (' + base_url + symbol + '/consolidated' + ')')
                 symbol = symbol + ".NS"
 
                 self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol)
