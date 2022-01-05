@@ -51,9 +51,9 @@ class Driver:
                 print(i, ': ' + all_symbols[symbol] + ' (' + base_url + symbol + '/consolidated' + ')')
                 symbol = symbol + ".NS"
 
-                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(symbol)
+                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/form/input").send_keys(symbol)
                 time.sleep(0.5) # to fix the drop down list display issue
-                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/div/div/fieldset/input").send_keys(Keys.ENTER)
+                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/form/input").send_keys(Keys.ENTER)
                 time.sleep(10)
                 i += 1
             except KeyboardInterrupt:
