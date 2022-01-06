@@ -1,5 +1,6 @@
 import sys
 import time, threading
+import itertools
 import webbrowser
 from nsetools import Nse
 from selenium import webdriver
@@ -43,9 +44,7 @@ class Driver:
         while i < end:
             try:
                 if pause_execution == True:
-                    print("*", end="", flush=True)
-                    time.sleep(5)
-                    continue
+                    animate()
 
                 symbol = keys[i]
                 print(i, ': ' + all_symbols[symbol] + ' (' + base_url + symbol + '/consolidated' + ')')
@@ -59,6 +58,14 @@ class Driver:
             except KeyboardInterrupt:
                 sys.exit(1)
 
+def animate():
+    for c in itertools.cycle(['|', '/', '-', '\\']):
+    #for c in itertools.cycle(["⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"]):
+        if pause_execution == False:
+            break
+        sys.stdout.write('\rwaiting ' + c)
+        sys.stdout.flush()
+        time.sleep(0.1)
 
 def toggle_pause_execution():
     global pause_execution
