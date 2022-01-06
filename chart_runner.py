@@ -46,9 +46,8 @@ class Driver:
                 if pause_execution == True:
                     animate()
 
-                symbol = keys[i]
-                print(i, ': ' + all_symbols[symbol] + ' (' + base_url + symbol + '/consolidated' + ')')
-                symbol = symbol + ".NS"
+                print(i, ': ' + all_symbols[keys[i]], '(' + keys[i] + ')')
+                symbol = keys[i] + ".NS"
 
                 self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/form/input").send_keys(symbol)
                 time.sleep(0.5) # to fix the drop down list display issue
@@ -70,8 +69,7 @@ def animate():
 def toggle_pause_execution():
     global pause_execution
     lock = threading.Lock()
-    print("Enter any key to toggle pause!")
-    print("------------------------------")
+    print("Enter any key to toggle pause!\n")
 
     while True:
         with lock:
