@@ -62,7 +62,7 @@ def animate():
     #for c in itertools.cycle(["⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"]):
         if pause_execution == False:
             break
-        sys.stdout.write('\rwaiting ' + c)
+        sys.stdout.write('\rwaiting... ' + c)
         sys.stdout.flush()
         time.sleep(0.1)
 
