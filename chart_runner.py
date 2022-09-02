@@ -4,6 +4,7 @@ import itertools
 import webbrowser
 from nsetools import Nse
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -17,7 +18,7 @@ del all_symbols['SYMBOL']
 print("Total symbols: %d" % (len(all_symbols)))
 keys = list(all_symbols.keys())
 
-url = 'https://finance.yahoo.com/chart/%5ENSEI'
+url = 'https://chartink.com/stocks/nifty.html'
 pause_execution = False
 stop_thread = False
 
@@ -26,9 +27,9 @@ base_url= "https://www.screener.in/company/"
 class Driver:
     def __init__ (self):
         chromeOptions = Options()
-        # start fullscreen
-        # chromeOptions.add_argument("--kiosk")
-        self.driver = webdriver.Chrome(options=chromeOptions)
+        # chromeOptions.add_argument("--kiosk") start fullscreen
+        # self.driver = webdriver.Chrome(options=chromeOptions)
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(url)
 
     def set_view (self):
@@ -47,11 +48,12 @@ class Driver:
                     animate()
 
                 print(i, ': ' + all_symbols[keys[i]], '(' + keys[i] + ')')
-                symbol = keys[i] + ".NS"
+                # symbol = keys[i] + ".NS" yahoo finance
+                symbol = keys[i]
 
-                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/form/input").send_keys(symbol)
-                time.sleep(0.5) # to fix the drop down list display issue
-                self.driver.find_element_by_xpath("//*[@id='main-1-FullScreenChartIQ-Proxy']/section/header/div[3]/div/form/input").send_keys(Keys.ENTER)
+                self.driver.find_element_by_xpath("//*[@id='searchbox']").send_keys(symbol)
+                # time.sleep(0.5) # to fix the drop down list display issue in yahoo finance
+                self.driver.find_element_by_xpath("//*[@id='searchbox']").send_keys(Keys.ENTER)
                 time.sleep(5)
                 i += 1
             except KeyboardInterrupt:
