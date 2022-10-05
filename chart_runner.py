@@ -14,9 +14,18 @@ from selenium.webdriver.chrome.options import Options
 nse = Nse()
 all_symbols = nse.get_stock_codes()
 del all_symbols['SYMBOL']
+fno_symbols = nse.get_fno_symbols()
+symbols = {}
 
-print("Total symbols: %d" % (len(all_symbols)))
-keys = list(all_symbols.keys())
+if sys.argv[1] == "fno":
+    for symbol in all_symbols:
+        if symbol in fno_symbols:
+            symbols[symbol] = all_symbols[symbol]
+else:
+    symbols = all_symbols
+
+print("Total symbols: %d" % (len(symbols)))
+keys = list(symbols.keys())
 
 url = 'https://chartink.com/stocks/nifty.html'
 pause_execution = False
@@ -47,7 +56,7 @@ class Driver:
                 if pause_execution == True:
                     animate()
 
-                print(i, ': ' + all_symbols[keys[i]], '(' + keys[i] + ')')
+                print(i, ': ' + symbols[keys[i]], '(' + keys[i] + ')')
                 # symbol = keys[i] + ".NS" yahoo finance
                 symbol = keys[i]
 
@@ -82,7 +91,7 @@ def toggle_pause_execution():
                 break
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         print("Not enough arguments\n")
         sys.exit(1)
 
@@ -92,7 +101,7 @@ if __name__ == '__main__':
     thread = threading.Thread(target = toggle_pause_execution)
     thread.start()
 
-    driver.display_chart(int(sys.argv[1]), int(sys.argv[2]))
+    driver.display_chart(int(sys.argv[2]), int(sys.argv[3]))
 
     stop_thread = True
     thread.join()
